@@ -77,13 +77,17 @@ public class SingleplayerState extends State implements PlayState  {
 
                 if(ufo.getBoundingRectangle().contains(touchPoint.x, touchPoint.y))
                 {
-                    if (ufo.sliced() == -1) {
+                    /*if (ufo.sliced() == -1) {
                         // GAME OVER (slicet en pasient)
                         System.out.println("GAME OVER");
+
                     }
+                    */
+
                     if (ufo instanceof SickPerson) {
                         ufo.sliced();
                         System.out.println("GAME OVER");
+                        gsm.push(new GameOverState(gsm, player));
                     }
                     else if (ufo.sliced() == 1) {
                         player.increaseScore(1);
@@ -108,6 +112,7 @@ public class SingleplayerState extends State implements PlayState  {
         if (player.getLivesLeft() == 0) {
             // GAME OVER
             System.out.println("GAME OVER");
+            gsm.push(new GameOverState(gsm, player));
         }
     }
 
