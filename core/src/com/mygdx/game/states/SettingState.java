@@ -32,9 +32,9 @@ public class SettingState extends State{
      */
     public SettingState(GameStateManager gsm){
         super(gsm);
-        musicButton.setPosition(HEIGHT/2.35f,HEIGHT/2.35f);
+        musicButton.setPosition(WIDTH/1.5f,HEIGHT/2.3f);
         musicButton.setSize(HEIGHT/40f,HEIGHT/40f);
-        soundButton.setPosition(HEIGHT/2.35f,HEIGHT/1.86f);
+        soundButton.setPosition(WIDTH/1.5f,HEIGHT/1.78f);
         soundButton.setSize(HEIGHT/40f,HEIGHT/40f);
         settingsBtn.setSize(WIDTH/3f, WIDTH/3f);
         settingsBtn.setPosition(WIDTH/2f - settingsBtn.getWidth()/2,
@@ -65,7 +65,7 @@ public class SettingState extends State{
             volumeSoundSlider.setValue(MyGdxGame.returnSoundVolume());
         }
         volumeSoundSlider.setPosition(WIDTH/1.78f,HEIGHT/1.7f);
-        volumeMusicSlider.setPosition( WIDTH/1.78f,HEIGHT/2.13f);
+        volumeMusicSlider.setPosition( WIDTH/1.78f,HEIGHT/2.15f);
         stage.addActor(volumeMusicSlider);
         stage.addActor(volumeSoundSlider);
         stage.addActor(musicButton);
