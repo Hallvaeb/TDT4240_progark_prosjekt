@@ -118,77 +118,79 @@ public class MultiplayerState extends State implements PlayState {
 
     @Override
     protected void handleInput() {
-        if(Gdx.input.isTouched(0) || Gdx.input.isTouched(1)) {
-            touchPoint.set(Gdx.input.getX(0),HEIGHT - Gdx.input.getY(0),0);
-            touchPoint2.set(Gdx.input.getX(1),HEIGHT - Gdx.input.getY(1),0);
-            if (pause.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)) {
-                MyGdxGame.sound.play();
-                gsm.push(new PauseState(gsm));
-            }
-            if (pause2.getBoundingRectangle().contains(touchPoint2.x, touchPoint2.y)) {
-                MyGdxGame.sound.play();
-                gsm.push(new PauseState(gsm));
-            }
+        for (int i = 0; i < 2; i++) {
 
-            // User 1
-            for (UFO ufo : ufos1) {
-                if((ufo.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)
-                        || (ufo.getBoundingRectangle().contains(WIDTH - touchPoint2.x, HEIGHT - touchPoint2.y)))
-                        && touchPoint.y < HEIGHT/2) {
-                    if (ufo instanceof SickPerson) {
-                        System.out.println("GAME OVER");
-                        gameOver(player2);
-                        break;
-                    }
-                    else if (ufo instanceof Syringe) {
-                        ufo.reposition();
-                        player1.gainLife();
-                        if (player1.getLivesLeft() == 3) {
-                            syringe.setSpawnable(false);
+
+            if (Gdx.input.isTouched(i)) {
+
+                touchPoint.set(Gdx.input.getX(i), HEIGHT - Gdx.input.getY(i), 0);
+                //touchPoint2.set(Gdx.input.getX(1), HEIGHT - Gdx.input.getY(1), 0);
+                if (pause.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)) {
+                    MyGdxGame.sound.play();
+                    gsm.push(new PauseState(gsm));
+                }
+                if (pause2.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)) {
+                    MyGdxGame.sound.play();
+                    gsm.push(new PauseState(gsm));
+                }
+
+                // User 1
+                for (UFO ufo : ufos1) {
+                    if (ufo.getBoundingRectangle().contains(touchPoint.x, touchPoint.y) && touchPoint.y < HEIGHT / 2) {
+                        if (ufo instanceof SickPerson) {
+                            System.out.println("GAME OVER");
+                            gameOver(player2);
+                            break;
+                        } else if (ufo instanceof Syringe) {
+                            ufo.reposition();
+                            player1.gainLife();
+                            if (player1.getLivesLeft() == 3) {
+                                syringe.setSpawnable(false);
+                            }
+                        } else {
+                            int difficulty = player1.increaseScoreAndDifficulty(ufo.getPoints());
+                            ufo.reposition();
+                            System.out.println(difficulty);
+                            if (difficulty != -1 && difficulty != currentDifficulty) {
+                                setUFODifficulty(difficulty);
+                            }
                         }
                     }
-                    else{
-                        int difficulty = player1.increaseScoreAndDifficulty(ufo.getPoints());
-                        ufo.reposition();
-                        System.out.println(difficulty);
-                        if(difficulty != -1 && difficulty != currentDifficulty){
-                            setUFODifficulty(difficulty);
+
+                }
+
+
+
+
+                // User 2
+                for (UFO ufo : ufos2) {
+                    if(ufo.getBoundingRectangle().contains(touchPoint.x, touchPoint.y) && touchPoint.y > HEIGHT/2) {
+                        if (ufo instanceof SickPerson) {
+                            System.out.println("GAME OVER");
+                            gameOver(player1);
+                            break;
+                        }
+                        else if (ufo instanceof Syringe) {
+                            ufo.reposition();
+                            player2.gainLife();
+                            if (player2.getLivesLeft() == 3) {
+                                syringe.setSpawnable(false);
+                            }
+                        }
+                        else{
+                            // One of the viruses are reposition
+                            int difficulty = player2.increaseScoreAndDifficulty(ufo.getPoints());
+                            ufo.reposition();
+                            if(difficulty != -1 && difficulty != currentDifficulty){
+                                setUFODifficulty(difficulty);
+                            }
                         }
                     }
                 }
-
-            }
-
-            // User 2
-            for (UFO ufo : ufos2) {
-                if((ufo.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)
-                        || (ufo.getBoundingRectangle().contains(WIDTH - touchPoint2.x, HEIGHT - touchPoint2.y)))
-                        && touchPoint2.y > HEIGHT/2) {
-                    if (ufo instanceof SickPerson) {
-                        System.out.println("GAME OVER");
-                        gameOver(player1);
-                        break;
-                    }
-                    else if (ufo instanceof Syringe) {
-                        ufo.reposition();
-                        player2.gainLife();
-                        if (player2.getLivesLeft() == 3) {
-                            syringe.setSpawnable(false);
-                        }
-                    }
-                    else{
-                        // One of the viruses are reposition
-                        int difficulty = player2.increaseScoreAndDifficulty(ufo.getPoints());
-                        ufo.reposition();
-                        if(difficulty != -1 && difficulty != currentDifficulty){
-                            setUFODifficulty(difficulty);
-                        }
-                    }
-                }
-
             }
         }
     }
+
 
     @Override
     public void update(float dt) {
