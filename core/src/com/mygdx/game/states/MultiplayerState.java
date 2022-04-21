@@ -132,7 +132,9 @@ public class MultiplayerState extends State implements PlayState {
 
             // User 1
             for (UFO ufo : ufos1) {
-                if(ufo.getBoundingRectangle().contains(touchPoint.x, touchPoint.y) && touchPoint.y < HEIGHT/2) {
+                if((ufo.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)
+                        || (ufo.getBoundingRectangle().contains(WIDTH - touchPoint2.x, HEIGHT - touchPoint2.y)))
+                        && touchPoint.y < HEIGHT/2) {
                     if (ufo instanceof SickPerson) {
                         System.out.println("GAME OVER");
                         gameOver(player2);
@@ -156,13 +158,12 @@ public class MultiplayerState extends State implements PlayState {
                 }
 
             }
-            if (!Gdx.input.isTouched(1)) {
-                touchPoint2 = touchPoint;
-            }
 
             // User 2
             for (UFO ufo : ufos2) {
-                if(ufo.getBoundingRectangle().contains(WIDTH - touchPoint2.x, HEIGHT - touchPoint2.y) && touchPoint2.y > HEIGHT/2) {
+                if((ufo.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)
+                        || (ufo.getBoundingRectangle().contains(WIDTH - touchPoint2.x, HEIGHT - touchPoint2.y)))
+                        && touchPoint2.y > HEIGHT/2) {
                     if (ufo instanceof SickPerson) {
                         System.out.println("GAME OVER");
                         gameOver(player1);
