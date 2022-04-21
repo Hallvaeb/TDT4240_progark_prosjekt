@@ -156,6 +156,9 @@ public class MultiplayerState extends State implements PlayState {
                 }
 
             }
+            if (!Gdx.input.isTouched(1)) {
+                touchPoint2 = touchPoint;
+            }
 
             // User 2
             for (UFO ufo : ufos2) {
