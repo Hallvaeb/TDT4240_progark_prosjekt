@@ -7,11 +7,13 @@ public class Player {
     private int livesLeft;
     private int score;
     private String name;
+    private int type;
     private int currentDifficulty;
 
     public Player(){
         livesLeft = 3;
         score = 0;
+        type = 0;
         currentDifficulty = 0;
     }
 
@@ -42,6 +44,10 @@ public class Player {
     public int getScore() {
         return score;
     }
+
+    public void setType(int type){ this.type = type; }
+
+    public int getType(){ return type; }
 
     /**
     * @return -1 if difficulty is not updated, otherwise the new difficulty score 0-10.

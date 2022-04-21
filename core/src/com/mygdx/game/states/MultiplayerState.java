@@ -66,7 +66,9 @@ public class MultiplayerState extends State implements PlayState {
         playerTwoViewport.setScreenY(MyGdxGame.HEIGHT/2);
 
         player1 = new Player();
+        player1.setType(1);
         player2 = new Player();
+        player2.setType(2);
         font = new BitmapFont();
         font.getData().setScale(3, 3);
 
@@ -102,6 +104,22 @@ public class MultiplayerState extends State implements PlayState {
         ufos2.add(cov_alpha2);
     }
 
+    public void setUFO1Difficulty(int difficulty) {
+        for (int i = 0; i < ufos1.size; i++){
+            ufos1.get(i).setDifficulty(difficulty);
+        }
+    }
+    public void setUFO2Difficulty(int difficulty) {
+        for (int i = 0; i < ufos2.size; i++){
+            ufos2.get(i).setDifficulty(difficulty);
+        }
+    }
+
+    private void gameOver(Player player) {
+        Syringe.getInstance().reset();
+        gsm.push(new GameOverMultiState(gsm, player));
+    }
+
     @Override
     protected void handleInput() {
         if(Gdx.input.isTouched()) {
@@ -122,7 +140,7 @@ public class MultiplayerState extends State implements PlayState {
                 if(ufo.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)) {
                     if (ufo instanceof SickPerson) {
                         System.out.println("GAME OVER");
-
+                        gameOver(player2);
                         System.out.println("Gsm has set, back in singleplayer...? OVER");
                     }
                     else if (ufo instanceof Syringe) {
@@ -133,9 +151,11 @@ public class MultiplayerState extends State implements PlayState {
                         }
                     }
                     else{
-                        // One of the viruses are reposition
-                        player1.increaseScoreAndDifficulty(ufo.getPoints());
-                        ufo.reposition();
+                        // One of the viruses are sliced, should difficulty increase?
+                        int difficulty = player1.increaseScoreAndDifficulty(ufo.getPoints());
+                        if(difficulty != -1){
+                            setUFO1Difficulty(difficulty);
+                        }
                     }
                 }
 
@@ -147,7 +167,7 @@ public class MultiplayerState extends State implements PlayState {
                 if(ufo.getBoundingRectangle().contains(MyGdxGame.WIDTH - touchPoint2.x, MyGdxGame.HEIGHT - touchPoint2.y)) {
                     if (ufo instanceof SickPerson) {
                         System.out.println("GAME OVER");
-
+                        gameOver(player1);
                         System.out.println("Gsm has set, back in singleplayer...? OVER");
                     }
                     else if (ufo instanceof Syringe) {
@@ -158,9 +178,11 @@ public class MultiplayerState extends State implements PlayState {
                         }
                     }
                     else{
-                        // One of the viruses are reposition
-                        player2.increaseScoreAndDifficulty(ufo.getPoints());
-                        ufo.reposition();
+                        // One of the viruses are sliced, should difficulty increase?
+                        int difficulty = player1.increaseScoreAndDifficulty(ufo.getPoints());
+                        if(difficulty != -1){
+                            setUFO2Difficulty(difficulty);
+                        }
                     }
                 }
 
