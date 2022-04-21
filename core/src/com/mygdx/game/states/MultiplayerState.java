@@ -118,14 +118,14 @@ public class MultiplayerState extends State implements PlayState {
 
     @Override
     protected void handleInput() {
-        if(Gdx.input.isTouched()) {
-            touchPoint.set(Gdx.input.getX(),HEIGHT - Gdx.input.getY(),0);
-            touchPoint2.set(Gdx.input.getX(),HEIGHT - Gdx.input.getY(),0);
+        if(Gdx.input.isTouched(0) || Gdx.input.isTouched(1)) {
+            touchPoint.set(Gdx.input.getX(0),HEIGHT - Gdx.input.getY(0),0);
+            touchPoint2.set(Gdx.input.getX(1),HEIGHT - Gdx.input.getY(1),0);
             if (pause.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)) {
                 MyGdxGame.sound.play();
                 gsm.push(new PauseState(gsm));
             }
-            if (pause2.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)) {
+            if (pause2.getBoundingRectangle().contains(touchPoint2.x, touchPoint2.y)) {
                 MyGdxGame.sound.play();
                 gsm.push(new PauseState(gsm));
             }
@@ -159,7 +159,7 @@ public class MultiplayerState extends State implements PlayState {
 
             // User 2
             for (UFO ufo : ufos2) {
-                if(ufo.getBoundingRectangle().contains(WIDTH - touchPoint.x, HEIGHT - touchPoint.y) && touchPoint.y > HEIGHT/2) {
+                if(ufo.getBoundingRectangle().contains(WIDTH - touchPoint2.x, HEIGHT - touchPoint2.y) && touchPoint2.y > HEIGHT/2) {
                     if (ufo instanceof SickPerson) {
                         System.out.println("GAME OVER");
                         gameOver(player1);
