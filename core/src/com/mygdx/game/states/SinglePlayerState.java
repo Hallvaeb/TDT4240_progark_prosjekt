@@ -45,7 +45,7 @@ public class SinglePlayerState extends State implements PlayState {
 
         //Pause
         pause.setSize(Gdx.graphics.getWidth()/10f, Gdx.graphics.getHeight()/16f);
-        pause.setPosition(Gdx.graphics.getWidth()-60,Gdx.graphics.getHeight()-60);
+        pause.setPosition(Gdx.graphics.getWidth()/1.14f,Gdx.graphics.getHeight()/1.08f);
 
         touchPoint = new Vector3();
 
@@ -126,7 +126,7 @@ public class SinglePlayerState extends State implements PlayState {
         sb.begin();
         sb.draw(bg, 0, 0, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         font.draw(sb, "Score: " + player.getScore(), MyGdxGame.WIDTH/20f,
-                0.85f*MyGdxGame.HEIGHT);
+                0.85f*Gdx.graphics.getHeight());
         for (int i = 0; i < player.getLivesLeft(); i++) {
             sb.draw(health, Gdx.graphics.getWidth()/48f+i*Gdx.graphics.getWidth()/8f,
                     0.9f*Gdx.graphics.getHeight(), 50, 50);

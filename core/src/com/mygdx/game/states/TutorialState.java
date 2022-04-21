@@ -10,9 +10,9 @@ import com.mygdx.game.sprites.Syringe;
 
 public class TutorialState extends State{
     private static final int MARGIN = Gdx.graphics.getWidth()/8;
-    private static final int IMG_DIM = 70;
+    private static final int IMG_DIM = Gdx.graphics.getWidth()/7;
     private static final int IMG_X = Gdx.graphics.getWidth()/10; //480x800: = 50
-    private static final int TEXT_X = IMG_X + IMG_DIM + 10;
+    private static final int TEXT_X = IMG_X + IMG_DIM + Gdx.graphics.getWidth()/48;
     private static final int IMG_Y_FACTOR = Gdx.graphics.getHeight()/8; //480x800: = 100
 
     private Texture bg;
@@ -71,10 +71,10 @@ public class TutorialState extends State{
         sb.begin();
         sb.draw(bg,0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         sb.draw(returnBtn, returnBtn.getX(), returnBtn.getY(), Gdx.graphics.getWidth()/3f,
-                Gdx.graphics.getWidth()/3f);
+                Gdx.graphics.getHeight()/5f);
 
-        fontHeader.draw(sb, "TUTORIAL", (Gdx.graphics.getWidth()/2f) - 1.75f*MARGIN,
-                Gdx.graphics.getHeight()-MARGIN);
+        fontHeader.draw(sb, "TUTORIAL", IMG_X,
+                7*IMG_Y_FACTOR + IMG_DIM);
 
         sb.draw(delta, IMG_X,2*IMG_Y_FACTOR, IMG_DIM, IMG_DIM);
         fontInfo.draw(sb, "Delta, slice! " +
